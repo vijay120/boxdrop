@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+
+  "name": "One-click box drop",
+  "description": "Downloads PDF directly to Box account",
+  "version": "1.0",
+
+  "permissions": [
+    "tabs",
+    "http://127.0.0.1:8080/"
+  ],
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  }
+}
