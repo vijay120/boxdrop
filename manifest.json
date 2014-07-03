@@ -6,9 +6,15 @@
   "version": "1.0",
 
   "permissions": [
+    "identity",
     "tabs",
-    "http://127.0.0.1:8080/"
+    "http://127.0.0.1:8080/",
+    "https://www.box.com/api/oauth2/authorize",
+    "https://www.box.com/",
+    "https://app.box.com/"
   ],
+
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
   "browser_action": {
     "default_icon": "icon.png",
