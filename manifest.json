@@ -11,7 +11,8 @@
     "http://127.0.0.1:8080/",
     "https://www.box.com/api/oauth2/authorize",
     "https://www.box.com/",
-    "https://app.box.com/"
+    "https://app.box.com/",
+    "storage"
   ],
 
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",

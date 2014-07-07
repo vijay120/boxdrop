@@ -3,14 +3,13 @@ var fs = require('fs');
 var path = require('path');
 var http = require('http');
 
-var urlRegEx = /([^.\/~%]+.pdf)/;
+var urlRegEx = /([^.\/~%]+\.pdf)/;
 
 var downloadUrl = function(url, token, cb) {
 	var sanitizedUrl = urlRegEx.exec(url)[0];
 	var filePath = "/tmp/"+sanitizedUrl;
 	var file = fs.createWriteStream(filePath);
 	request.get(url).pipe(file);
-
 	file.on('finish', function() {
 		cb(filePath, token);
 	});
@@ -44,4 +43,3 @@ http.createServer(function(req, res) {
         });
 	}
 }).listen(8080);
-
