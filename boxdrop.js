@@ -4,28 +4,55 @@ var path = require('path');
 var http = require('http');
 
 var urlRegEx = /([^.\/~%]+\.pdf)/;
-
-var downloadUrl = function(url, token, cb) {
-	var sanitizedUrl = urlRegEx.exec(url)[0];
-	var filePath = "/tmp/"+sanitizedUrl;
-	var file = fs.createWriteStream(filePath);
-	request.get(url).pipe(file);
-	file.on('finish', function() {
-		cb(filePath, token);
-	});
-}
-
-var uploadFile = function(filePath, token) {
-	var r = request.post("https://upload.box.com/api/2.0/files/content", function(error, resp, body) {
-		console.log(resp);
-	}).auth(null, null, true, token);
-
-	var form = r.form();
-	form.append("filename", fs.createReadStream(filePath));
-	form.append("folder_id", "0");
-}
+var badrequest = 400;
 
 http.createServer(function(req, res) {
+
+	var downloadUrl = function(url, token, cb) {
+		
+		if(urlRegEx.exec(url) != null) {
+			var sanitizedUrl = urlRegEx.exec(url)[0];
+			var filePath = "/tmp/"+sanitizedUrl;
+			var file = fs.createWriteStream(filePath);
+			request(
+				{
+					uri: url,
+					timeout: 10000,
+					method: "GET"
+				},
+				function(error, body, response) {
+					if(error) {
+						//cannot download file to server
+						res.writeHead(response.statusCode);
+						res.end();
+					}
+				}
+			).pipe(file);
+			file.on('finish', function() {
+				cb(filePath, token);
+			});
+		}
+		else {
+			res.writeHead(badrequest);
+			res.end();
+		}
+	};
+
+	var uploadFile = function(filePath, token) {
+		var box_request = request.post("https://upload.box.com/api/2.0/files/content", function(error, box_resp, body) {
+			res.writeHead(box_resp.statusCode);
+			res.end();
+
+			fs.unlink(filePath, function (err) {
+				console.log(err);
+			});
+		}).auth(null, null, true, token);
+
+		var form = box_request.form();
+		form.append("filename", fs.createReadStream(filePath));
+		form.append("folder_id", "0");
+	};
+
 	if (req.method == 'POST') {
 		var body = '';
         req.on('data', function (data) {
