@@ -1,3 +1,5 @@
+
+
 var login = function() {
 	chrome.extension.getBackgroundPage().login();
 };

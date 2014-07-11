@@ -9,7 +9,6 @@ var badrequest = 400;
 http.createServer(function(req, res) {
 
 	var downloadUrl = function(url, token, cb) {
-		
 		if(urlRegEx.exec(url) != null) {
 			var sanitizedUrl = urlRegEx.exec(url)[0];
 			var filePath = "/tmp/"+sanitizedUrl;
@@ -40,6 +39,7 @@ http.createServer(function(req, res) {
 
 	var uploadFile = function(filePath, token) {
 		var box_request = request.post("https://upload.box.com/api/2.0/files/content", function(error, box_resp, body) {
+			console.log(box_resp.statusCode);
 			res.writeHead(box_resp.statusCode);
 			res.end();
 

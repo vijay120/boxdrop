@@ -19,12 +19,12 @@ var attemptLogin = function(callback) {
 			callback(false);
 		}
 		else {
-			sendAuthReq2(callback);
+			sendAuthReq(callback, false);
 		}
 	});
 };
 
-var sendAuthReq2 = function(callback) {
+var sendAuthReq = function(callback, contactServer) {
 	var formdata = new FormData();
 	formdata.append("grant_type", "refresh_token");
 	formdata.append("refresh_token", g_refresh_token);
@@ -35,27 +35,11 @@ var sendAuthReq2 = function(callback) {
 	req.open("POST", token_url, true);
 	req.send(formdata);
 	req.onload = function() {	
-		handleXhrLoad(callback, this.status, this.responseText);
+		handleXhrLoad(callback, this.status, this.responseText, contactServer);
 	};
 };
 
-
-var sendAuthReq = function(callback) {
-	var formdata = new FormData();
-	formdata.append("grant_type", "refresh_token");
-	formdata.append("refresh_token", g_refresh_token);
-	formdata.append("client_id", clientId);
-	formdata.append("client_secret", clientSecret);
-
-	var req = new XMLHttpRequest();
-	req.open("POST", token_url, true);
-	req.send(formdata);
-	req.onload = function() {	
-		handleXhrLoad2(callback, this.status, this.responseText);
-	};
-};
-
-var handleXhrLoad = function(callback, status, responseText) {
+var handleXhrLoad = function(callback, status, responseText, bool_executeOnTokens) {
 	console.log(status);
 
     if (status >= 200 && status < 300) {
@@ -64,25 +48,12 @@ var handleXhrLoad = function(callback, status, responseText) {
     	var refresh_token = json_token.refresh_token;
     	chrome.storage.local.set({"refresh_token": refresh_token});
     	g_refresh_token = refresh_token;
-    	//executeOnTokens(access_token, refresh_token);
+
+    	if(bool_executeOnTokens) {
+    		executeOnTokens(callback, access_token, refresh_token);
+    	}
 
     	callback(true);
-    }
-    else {
-    	callback(false);
-    }
-};
-
-var handleXhrLoad2 = function(callback, status, responseText) {
-	console.log(status);
-
-    if (status >= 200 && status < 300) {
-    	var json_token = JSON.parse(responseText);
-    	var access_token = json_token.access_token;
-    	var refresh_token = json_token.refresh_token;
-    	chrome.storage.local.set({"refresh_token": refresh_token});
-    	g_refresh_token = refresh_token;
-    	executeOnTokens(callback, access_token, refresh_token);
     }
     else {
     	callback(false);

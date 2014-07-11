@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			createLogoutButton();
 			chrome.extension.getBackgroundPage().sendAuthReq(function(is_success) {
 				drawStatusImages(is_success);
-			});
+			}, true);
 		}
 		else {
 			createLoginButton();
