@@ -14,7 +14,6 @@ var attemptLogin = function(callback) {
 	chrome.storage.local.get("refresh_token", function(result) {
 		var token = result.refresh_token;
 		g_refresh_token = token;
-
 		if(token === undefined) {
 			callback(false);
 		}
@@ -24,7 +23,7 @@ var attemptLogin = function(callback) {
 	});
 };
 
-var sendAuthReq = function(callback, contactServer) {
+var sendAuthReq = function(callback, downloadlink) {
 	var formdata = new FormData();
 	formdata.append("grant_type", "refresh_token");
 	formdata.append("refresh_token", g_refresh_token);
@@ -34,26 +33,24 @@ var sendAuthReq = function(callback, contactServer) {
 	var req = new XMLHttpRequest();
 	req.open("POST", token_url, true);
 	req.send(formdata);
-	req.onload = function() {	
-		handleXhrLoad(callback, this.status, this.responseText, contactServer);
+	req.onload = function() {
+		handleXhrLoad(callback, this.status, this.responseText, downloadlink);
 	};
 };
 
-var handleXhrLoad = function(callback, status, responseText, bool_executeOnTokens) {
-	console.log(status);
-
+var handleXhrLoad = function(callback, status, responseText, withToken) {
     if (status >= 200 && status < 300) {
     	var json_token = JSON.parse(responseText);
     	var access_token = json_token.access_token;
     	var refresh_token = json_token.refresh_token;
     	chrome.storage.local.set({"refresh_token": refresh_token});
     	g_refresh_token = refresh_token;
-
-    	if(bool_executeOnTokens) {
+    	if(withToken) {
     		executeOnTokens(callback, access_token, refresh_token);
     	}
-
-    	callback(true);
+    	else {
+    		callback(true);
+    	}
     }
     else {
     	callback(false);
@@ -97,7 +94,7 @@ function exchangeCodeForToken(code) {
   	xhr.open('POST', token_url, true);
   	xhr.send(data);
   	xhr.onload = function() {
-  		handleXhrLoad(callback, this.status, this.responseText);
+  		handleXhrLoadWithoutExecuteTokens(callback, this.status, this.responseText);
   	};
 };
 
