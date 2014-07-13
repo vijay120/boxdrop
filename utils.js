@@ -9,8 +9,9 @@ var logout = function() {
 
 function createLoginButton() {
 	var login_button = document.createElement("BUTTON");
-	var text = document.createTextNode("Login to Box");
+	var text = document.createTextNode("Box Log In");
 	login_button.appendChild(text);
+	login_button.className = "btn btn-primary";
 	login_button.id = "login";
 	login_button.addEventListener('click', login);
 	document.body.appendChild(login_button);
@@ -18,28 +19,28 @@ function createLoginButton() {
 
 function createLogoutButton(token) {
 	var logout_button = document.createElement("BUTTON");
-	var text = document.createTextNode("Logout of Box");
+	var text = document.createTextNode("Box Log Out");
 	logout_button.appendChild(text);
+	logout_button.className = "btn btn-warning";
 	logout_button.id = "logout";
 	logout_button.addEventListener('click', logout);
 	document.body.appendChild(logout_button);
 }
 
 function drawStatusImages(success) {
-	var figure = document.createElement("figure");
 	var img = document.createElement("img");
+	var text;
+	img.className = "img-rounded";
 	img.height = 50;
 	img.width = 50;
-	var figCaption = document.createElement("figcaption");
 	if(success) {
 		img.src = "greencheck.png";
-		figCaption.textContent = "Saved!";
+		text = document.createTextNode("Saved!");
 	}
 	else {
 		img.src = "redcross.png";
-		figCaption.textContent = "Could not save file :(";
+		text = document.createTextNode("Could not save :(");
 	}
-	figure.appendChild(img);
-	figure.appendChild(figCaption);
-	document.body.appendChild(figure);
+	document.getElementById("result_image").appendChild(img);
+	document.getElementById("result_text").appendChild(text);
 };

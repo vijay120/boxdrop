@@ -1,0 +1,15 @@
+.login {
+  padding: 5px;
+  background-color: #dcdcdc;
+  border: 1px solid #666;
+  color: #000;
+  text-decoration: none;
+}
+
+.logout {
+  padding: 5px;
+  background-color: #dcdcdc;
+  border: 1px solid #666;
+  color: #000;
+  text-decoration: none;
+}
