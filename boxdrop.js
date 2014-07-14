@@ -60,7 +60,6 @@ http.createServer(function(req, res) {
         });
 
         req.on('end', function () {
-        	console.log(body);
         	var keyVal = JSON.parse(body);
         	var url = keyVal["url"];
         	var access_token = keyVal["access_token"];

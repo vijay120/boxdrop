@@ -1,15 +1,8 @@
-.login {
-  padding: 5px;
-  background-color: #dcdcdc;
-  border: 1px solid #666;
-  color: #000;
-  text-decoration: none;
-}
-
-.logout {
-  padding: 5px;
-  background-color: #dcdcdc;
-  border: 1px solid #666;
-  color: #000;
-  text-decoration: none;
+body {
+  min-height: 50px; /* your desired width */
+  min-width: 50px;
+  max-height: 100%;
+  max-width: 100%;
+  position: relative;
+  vertical-align:middle;
 }

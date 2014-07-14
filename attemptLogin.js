@@ -1,9 +1,8 @@
-var spinner = new Spinner().spin();
-
 document.addEventListener('DOMContentLoaded', function () {
+	var spinner = new Spinner().spin();
+	document.getElementById("waiting").appendChild(spinner.el);
 	chrome.extension.getBackgroundPage().attemptLogin(function(loggedin) {
 		if(loggedin) {
-			document.body.appendChild(spinner.el);
 			chrome.extension.getBackgroundPage().sendAuthReq(function(is_success) {
 				drawStatusImages(is_success);
 				spinner.stop();
@@ -11,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			}, true);
 		}
 		else {
+			spinner.stop();
 			createLoginButton();
 		}
 	});

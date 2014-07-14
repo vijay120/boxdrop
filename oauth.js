@@ -94,7 +94,7 @@ function exchangeCodeForToken(code) {
   	xhr.open('POST', token_url, true);
   	xhr.send(data);
   	xhr.onload = function() {
-  		handleXhrLoadWithoutExecuteTokens(callback, this.status, this.responseText);
+  		handleXhrLoad(callback, this.status, this.responseText);
   	};
 };
 
@@ -135,7 +135,6 @@ var logout = function() {
 	req.send(formdata);
 
 	req.onload = function() {
-		// spinner.stop();
 		console.log(this.status);
 	}
 };
