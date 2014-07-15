@@ -8,6 +8,19 @@ var logout = function() {
 };
 
 function createLoginButton() {
+	var img = document.createElement("img");
+	img.className = "img-responsive center-block";
+	img.height = 50;
+	img.width = 50;
+	img.src = "cloud.png";
+	document.getElementById("result_image").appendChild(img);
+
+	var text = document.createElement("h3");
+	text.className = "text-center";
+	var textNode = document.createTextNode("Cloud Drop");
+	text.appendChild(textNode);
+	document.getElementById("result_text").appendChild(text);
+
 	var login_button = document.createElement("BUTTON");
 	var text = document.createTextNode("Box Log In");
 	login_button.appendChild(text);
@@ -29,7 +42,7 @@ function createLogoutButton(token) {
 
 function drawStatusImages(success) {
 	var img = document.createElement("img");
-	var text = document.createElement("h2");
+	var text = document.createElement("h4");
 	text.className = "text-center";
 	var textNode;
 	img.className = "img-responsive center-block";

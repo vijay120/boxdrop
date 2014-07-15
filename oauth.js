@@ -6,7 +6,9 @@ var revoke_url = "https://www.box.com/api/oauth2/revoke";
 var randomString = Math.random().toString(36).substring(7);
 var queryRegex = /state=(.+)&code=(.+)/;
 var token_url = "https://www.box.com/api/oauth2/token";
-var authorize_url = "https://www.box.com/api/oauth2/authorize"
+var authorize_url = "https://www.box.com/api/oauth2/authorize";
+
+var server_url = "http://still-oasis-8265.herokuapp.com/";
 
 var g_refresh_token;
 
@@ -61,7 +63,7 @@ function executeOnTokens(callback, access_token, refresh_token) {
 	console.log(access_token);
 	chrome.tabs.getSelected(null,function(tab) {
 		var postData = {"url": tab.url, "access_token": access_token, "refresh_token": refresh_token};
-		var url = "http://127.0.0.1:8080/";
+		var url = server_url;
 	    var req = new XMLHttpRequest();
 		req.open("POST", url, true);
 		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
