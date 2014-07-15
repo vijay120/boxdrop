@@ -24,7 +24,7 @@ function createLoginButton() {
 	var login_button = document.createElement("BUTTON");
 	var text = document.createTextNode("Box Log In");
 	login_button.appendChild(text);
-	login_button.className = "btn btn-primary";
+	login_button.className = "btn btn-primary center-block";
 	login_button.id = "login";
 	login_button.addEventListener('click', login);
 	document.getElementById("auth_button").appendChild(login_button);
@@ -34,7 +34,7 @@ function createLogoutButton(token) {
 	var logout_button = document.createElement("BUTTON");
 	var text = document.createTextNode("Box Log Out");
 	logout_button.appendChild(text);
-	logout_button.className = "btn btn-warning btn-sm center-block";
+	logout_button.className = "btn btn-warning center-block";
 	logout_button.id = "logout";
 	logout_button.addEventListener('click', logout);
 	document.getElementById("auth_button").appendChild(logout_button);
@@ -42,7 +42,7 @@ function createLogoutButton(token) {
 
 function drawStatusImages(success) {
 	var img = document.createElement("img");
-	var text = document.createElement("h4");
+	var text = document.createElement("h3");
 	text.className = "text-center";
 	var textNode;
 	img.className = "img-responsive center-block";
